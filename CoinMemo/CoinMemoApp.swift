@@ -2,7 +2,7 @@
 //  CoinMemoApp.swift
 //  CoinMemo
 //
-//  Created by Jędrzej Kuś on 31/08/2022.
+//  Created by Jędrzej Kuś on 26/07/2022.
 //
 
 import SwiftUI
@@ -11,7 +11,8 @@ import SwiftUI
 struct CoinMemoApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            PortfolioView()
+                .environmentObject(PortfolioDataManager())
         }
     }
 }

@@ -1,0 +1,41 @@
+[
+    {
+        "id": 0,
+        "name": "First portfolio",
+        "account_value": 23000,
+        "badge_color": {
+            "red": 1,
+            "green": 0.5,
+            "blue": 0.29
+        },
+        "refresh_date": "dd-MM HH:mm:ss",
+        "coin": [
+            {
+                "name": "BTC",
+                "marketValue": 23000,
+                "volume": 1,
+                "transaction": [
+                    {
+                        "type": true,
+                        "volume": 1,
+                        "price": 23000,
+                        "date": "8 Aug"
+                    }
+                ]
+            },
+            {
+                "name": "ETH",
+                "marketValue": 1700,
+                "volume": 2,
+                "transaction": [
+                    {
+                        "type": true,
+                        "volume": 2,
+                        "price": 1700,
+                        "date": "8 Aug"
+                    }
+                ]
+            }
+        ]
+    }
+]
