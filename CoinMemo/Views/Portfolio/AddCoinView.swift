@@ -14,7 +14,6 @@ struct AddCoinView: View {
     @State private var isSearching = false
     @State private var showingAlert = false
     @State private var alertType = false
-    @State private var newCoin: Coin = emptyCoin
     
     var body: some View {
         VStack {
@@ -46,7 +45,7 @@ struct AddCoinView: View {
                                 } else {
                                     alertType = false
                                     
-                                    newCoin.name = coin
+                                    let newCoin = Coin(name: coin, marketValue: 0, volume: 0, transaction: [])
                                     portfolioDataManager.portfolioArray[portfolioDataManager.selectedPortfolio].coin.append(newCoin)
                                     portfolioDataManager.savePortfolioToFile()
                                 }

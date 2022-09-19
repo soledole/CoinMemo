@@ -10,6 +10,7 @@ import SwiftUI
 struct PortfolioView: View {
     
     @State private var isShowingAddView = false
+    @State private var isShowingListView = false
     
     var body: some View {
         NavigationView {
@@ -19,6 +20,16 @@ struct PortfolioView: View {
                         .font(.title2)
                     
                     Spacer()
+                    
+                    Button(action: {
+                        isShowingListView = true
+                    }, label: {
+                        Image(systemName: "books.vertical")
+                            .font(.system(size: 20))
+                    }) //: BUTTON
+                    .sheet(isPresented: $isShowingListView, content: {
+                        PortfolioListView()
+                    })
                     
                     Button(action: {
                         isShowingAddView = true

@@ -60,6 +60,7 @@ struct CoinTableView: View {
                 countBalance()
                 portfolioDataManager.savePortfolioToFile()
             }
+            .animation(.easeIn(duration: 1), value: portfolioDataManager.selectedPortfolio)
             
             Text(portfolioDataManager.portfolioArray[portfolioDataManager.selectedPortfolio].refresh_date)
                 .font(.subheadline)

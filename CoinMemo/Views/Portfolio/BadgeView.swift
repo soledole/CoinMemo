@@ -11,6 +11,7 @@ struct BadgeView: View {
     
     @EnvironmentObject var portfolioDataManager: PortfolioDataManager
     @State private var isShowingSettins = false
+    @State private var offset = CGSize.zero
     
     var body: some View {
         VStack {
@@ -42,7 +43,33 @@ struct BadgeView: View {
         .background(Color(red: portfolioDataManager.portfolioArray[portfolioDataManager.selectedPortfolio].badge_color.red, green: portfolioDataManager.portfolioArray[portfolioDataManager.selectedPortfolio].badge_color.green, blue: portfolioDataManager.portfolioArray[portfolioDataManager.selectedPortfolio].badge_color.blue))
         .cornerRadius(15)
         .foregroundColor(.white)
-        
+        .gesture(
+            DragGesture()
+                .onChanged { gesture in
+                    offset = gesture.translation
+                }
+                .onEnded { _ in
+                    if offset.width > 100 {
+                        
+                        if portfolioDataManager.selectedPortfolio == portfolioDataManager.portfolioArray.count-1 {
+                            print("cant select to right")
+                        } else {
+                            print("select +1")
+                            portfolioDataManager.selectedPortfolio += 1
+                        }
+                    } else if offset.width < -100 {
+                        
+                        if portfolioDataManager.selectedPortfolio == 0 {
+                            print("cant select to left")
+                        } else {
+                            print("select -1")
+                            portfolioDataManager.selectedPortfolio -= 1
+                        }
+                    }
+                    offset = .zero
+                }
+        )
+        .animation(.easeIn(duration: 0.5), value: offset)
     }
 }
 

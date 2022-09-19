@@ -89,7 +89,7 @@ struct CoinView: View {
                     })
                 }
             } //: TOOLBAR
-            .padding(.bottom, 30)
+            .padding([.top, .bottom], 30)
             
             HStack {
                 Text("Transactions")
