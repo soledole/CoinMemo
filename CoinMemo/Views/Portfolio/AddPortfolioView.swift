@@ -15,6 +15,7 @@ struct AddPortfolioView: View {
     private var gridItem: [GridItem] {
         Array(repeating: .init(.fixed(60)) , count: 3)
     }
+    @Binding var isPresented: Bool
     
     var body: some View {
         VStack {
@@ -65,10 +66,11 @@ struct AddPortfolioView: View {
             Button("Save", action: {
                 UIApplication.shared.dismissKeyboard()
                 if !name.isEmpty {
-                    let newPortfolio = Portfolio(id: portfolioDataManager.portfolioArray.count+1, name: name, account_value: 0, badge_color: colorSelected, refresh_date: "", coin: [])
+                    let newPortfolio = Portfolio(id: portfolioDataManager.portfolioArray.count+1, name: name, account_value: 0, badge_color: colorSelected, refresh_date: "", coin: [emptyCoin])
                     portfolioDataManager.portfolioArray.append(newPortfolio)
                 }
                 portfolioDataManager.savePortfolioToFile()
+                isPresented = false
             })
             .frame(width: 130, height: 30, alignment: .center)
             .cornerRadius(5)
@@ -83,7 +85,7 @@ struct AddPortfolioView: View {
 
 struct AddPortfolioView_Previews: PreviewProvider {
     static var previews: some View {
-        AddPortfolioView()
+        AddPortfolioView(isPresented: .constant(true))
             .preferredColorScheme(.dark)
     }
 }

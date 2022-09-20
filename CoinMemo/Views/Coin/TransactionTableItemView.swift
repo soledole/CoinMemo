@@ -24,15 +24,15 @@ struct TransactionTableItemView: View {
                 .rotationEffect(Angle(degrees: -90))
                 .padding(.leading, -20)
             
-            Text(String(transaction.volume))
+            Text(Metric(value: transaction.volume).description)
                 .padding(.leading, -10)
             Spacer()
             
-            Text(String(transaction.price))
+            Text(Metric(value: transaction.price).shortVersion)
                 .padding(.leading, -30)
             Spacer()
             
-            Text(String(format: "%.2f", countTransactionPercentageChange()))
+            Text(Metric(value: countTransactionPercentageChange()).shortVersion)
         }
     }
     

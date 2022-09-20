@@ -29,42 +29,37 @@ struct CoinView: View {
                 VStack {
                     Text("MARKET VALUE")
                         .font(.caption2)
-                    Text(String(format: "%.2f", coin.marketValue))
+                    Text(Metric(value: coin.marketValue).description)
                         .font(.body).bold()
                 }
                 VStack {
                     Text("VOLUME")
                         .font(.caption2)
-                    
-                    Text(String(format: "%.2f", volume))
+                    Text(Metric(value: volume).description)
                         .font(.body).bold()
                 }
                 VStack {
                     Text("COST")
                         .font(.caption2)
-                    
-                    Text(String(format: "%.1f", cost))
+                    Text(currency + Metric(value: cost).shortVersion)
                         .font(.body).bold()
                 }
                 VStack {
                     Text("AVG. PRICE")
                         .font(.caption2)
-                    
-                    Text(String(format: "%.2f", avgPrice))
+                    Text(Metric(value: avgPrice).description)
                         .font(.body).bold()
                 }
                 VStack {
                     Text("PROFIT")
                         .font(.caption2)
-                    
-                    Text(String(format: "%.1f", profit))
+                    Text(currency + Metric(value: profit).shortVersion)
                         .font(.body).bold()
                 }
                 VStack {
                     Text("% CHANGE")
                         .font(.caption2)
-                    
-                    Text(String(format: "%.2f", change))
+                    Text(Metric(value: change).shortVersion)
                         .font(.body).bold()
                 }
             } //: VGRID
@@ -85,7 +80,7 @@ struct CoinView: View {
                         resetValues()
                         reloadData()
                     }, content: {
-                        AddTransactionView(coin: coin)
+                        AddTransactionView(coin: coin, isPresented: $isShowingAddView)
                     })
                 }
             } //: TOOLBAR

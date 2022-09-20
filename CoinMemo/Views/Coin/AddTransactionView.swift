@@ -17,6 +17,7 @@ struct AddTransactionView: View {
     @State private var date = Date.now
     @State private var newTransaction: Transaction = emptyTransaction
     @State private var test: String = ""
+    @Binding var isPresented: Bool
     
     var body: some View {
         VStack {
@@ -57,6 +58,7 @@ struct AddTransactionView: View {
                 
                 portfolioDataManager.portfolioArray[portfolioDataManager.selectedPortfolio].coin[portfolioDataManager.selectedCoin].transaction.append(newTransaction)
                 portfolioDataManager.savePortfolioToFile()
+                isPresented = false
             })
             .padding(.top, 30)
             
@@ -77,6 +79,6 @@ struct AddTransactionView: View {
 
 struct AddTransactionView_Previews: PreviewProvider {
     static var previews: some View {
-        AddTransactionView(coin: emptyCoin)
+        AddTransactionView(coin: emptyCoin, isPresented: .constant(true))
     }
 }

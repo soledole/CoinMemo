@@ -12,7 +12,7 @@ let currency = "$"
 let fetchCurrency = "usd"
 let dateFormat = "dd MMM HH:mm:ss"
 let coinList = [
-    "BTC":"bitcoin", "ETH":"ethereum", "BNB":"binancecoin", "AAVE":"aave"
+    "BTC":"bitcoin", "ETH":"ethereum", "BNB":"binancecoin", "AAVE":"aave", "DOGE":"binance-peg-dogecoin"
 ]
 
 let emptyColorSelected = BadgeColor(red: 1, green: 1, blue: 1)

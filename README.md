@@ -1,5 +1,5 @@
 # CoinMemo
-![logo]<img src="CoinMemoIcon.png"/>
+<img src="CoinMemoIcon.png"/>
 
 Crypto portfolio app. Save your transactions, monitor your profit. HODL
 

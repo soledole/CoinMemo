@@ -28,7 +28,7 @@ struct PortfolioListView: View {
                         .font(.system(size: 20))
                 }) //: BUTTON
                 .sheet(isPresented: $isShowingAddView, content: {
-                    AddPortfolioView()
+                    AddPortfolioView(isPresented: $isShowingAddView)
                 })
             }
             .padding(.bottom, 30)
@@ -58,6 +58,11 @@ struct PortfolioListView: View {
     //MARK: - Functions
     
     private func delete(at offsets: IndexSet) {
+        if let offset = offsets.first {
+            if offset == portfolioDataManager.selectedPortfolio {
+                portfolioDataManager.selectedPortfolio -= 1
+            }
+        }
         portfolioDataManager.portfolioArray.remove(atOffsets: offsets)
         portfolioDataManager.savePortfolioToFile()
     }

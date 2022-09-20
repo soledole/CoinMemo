@@ -39,9 +39,9 @@ struct BadgeView: View {
             }
         } //: VSTACK
         .padding()
-        //better idea to write this
         .background(Color(red: portfolioDataManager.portfolioArray[portfolioDataManager.selectedPortfolio].badge_color.red, green: portfolioDataManager.portfolioArray[portfolioDataManager.selectedPortfolio].badge_color.green, blue: portfolioDataManager.portfolioArray[portfolioDataManager.selectedPortfolio].badge_color.blue))
         .cornerRadius(15)
+        .offset(x: offset.width * 0.1, y: 0)
         .foregroundColor(.white)
         .gesture(
             DragGesture()
@@ -49,7 +49,7 @@ struct BadgeView: View {
                     offset = gesture.translation
                 }
                 .onEnded { _ in
-                    if offset.width > 100 {
+                    if offset.width < 100 {
                         
                         if portfolioDataManager.selectedPortfolio == portfolioDataManager.portfolioArray.count-1 {
                             print("cant select to right")
@@ -57,7 +57,7 @@ struct BadgeView: View {
                             print("select +1")
                             portfolioDataManager.selectedPortfolio += 1
                         }
-                    } else if offset.width < -100 {
+                    } else if offset.width > -100 {
                         
                         if portfolioDataManager.selectedPortfolio == 0 {
                             print("cant select to left")

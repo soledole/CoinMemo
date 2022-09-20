@@ -19,15 +19,15 @@ struct CoinTableItemView: View {
                 .font(.headline)
             Spacer()
             
-            Text(currency+(String(format: "%.2f", marketValue)))
+            Text(currency + Metric(value: marketValue).description)
                 .font(.headline)
             Spacer()
             
             VStack(alignment: .trailing) {
-                Text(currency+String(format: "%.1f", marketValue * volume))
+                Text(currency + Metric(value: marketValue * volume).shortVersion)
                     .font(.headline)
                 
-                Text(String(format: "%.3f", volume))
+                Text(Metric(value: volume).description)
                     .padding(.leading, 30)
                     .font(.footnote)
             }
