@@ -21,6 +21,14 @@ struct AddCoinView: View {
                 Text("Add coin")
                     .font(.title)
                 Spacer()
+                
+                Button(action: {
+                    portfolioDataManager.loadPortfolioFromAPI()
+                    portfolioDataManager.saveCoinListToFile()
+                }, label: {
+                    Image(systemName: "arrow.clockwise")
+                        .font(.system(size: 20))
+                })
             }
             .padding(.bottom, 30)
             
@@ -30,7 +38,7 @@ struct AddCoinView: View {
                     .autocapitalization(.allCharacters)
                 
                 List {
-                    ForEach(coinList.keys.filter({ (coin: String) -> Bool in
+                    ForEach(portfolioDataManager.coinsList.keys.filter({ (coin: String) -> Bool in
                         return coin.hasPrefix(searchText) || searchText == ""
                     }), id: \.self) { coin in
                         

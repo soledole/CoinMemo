@@ -55,4 +55,29 @@ struct CoinGeckoAPI {
             task.resume()
         }
     }
+    
+    func getCoinList(completion: @escaping ([CoinList]) -> ()) {
+        
+        if let url = URL(string: "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=100&page=1&sparkline=false") {
+            
+            let session = URLSession(configuration: .default)
+            let task = session.dataTask(with: url) { (data, response, error) in
+                
+                if let safeData = data {
+                    
+                    do {
+                        let results = try JSONDecoder().decode([CoinList].self, from: safeData)
+
+                        DispatchQueue.main.async {
+                            completion(results)
+                        }
+                    }
+                    catch {
+                        print("Failed to laod: \(error.localizedDescription)")
+                    }
+                }
+            } //: SESSION
+            task.resume()
+        }
+    }
 }

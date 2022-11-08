@@ -55,6 +55,10 @@ struct CoinTableView: View {
                 print("refresh")
                 feedback.impactOccurred()
                 
+                //not sure if it will be good, have to test it
+                if portfolioDataManager.checkIfCoinListExist() == false {
+                    portfolioDataManager.saveCoinListToFile()
+                }
                 changePrices()
                 setRefreshDate()
                 countBalance()
@@ -73,7 +77,7 @@ struct CoinTableView: View {
         var coins: [String] = []
         
         for coin in portfolioDataManager.portfolioArray[portfolioDataManager.selectedPortfolio].coin {
-            coins.append(coinList[coin.name]!)
+            coins.append(portfolioDataManager.coinsList[coin.name]!)
         }
         
         CoinGeckoAPI().fetchDataForCoins(for: coins, in: fetchCurrency) { (prices) in

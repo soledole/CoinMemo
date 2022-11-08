@@ -36,3 +36,7 @@ struct Transaction: Codable, Hashable {
     var date: String
 }
 
+struct CoinList: Codable, Hashable {
+    var symbol: String
+    var id: String
+}
