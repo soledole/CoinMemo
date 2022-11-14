@@ -16,7 +16,7 @@ struct PortfolioView: View {
         NavigationView {
             VStack {
                 HStack {
-                    Text(appName)
+                    Text("Coin Memo")
                         .font(.title2)
                     
                     Spacer()

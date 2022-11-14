@@ -41,7 +41,7 @@ struct CoinView: View {
                 VStack {
                     Text("COST")
                         .font(.caption2)
-                    Text(currency + Metric(value: cost).shortVersion)
+                    Text(Defaults.currency + Metric(value: cost).shortVersion)
                         .font(.body).bold()
                 }
                 VStack {
@@ -53,7 +53,7 @@ struct CoinView: View {
                 VStack {
                     Text("PROFIT")
                         .font(.caption2)
-                    Text(currency + Metric(value: profit).shortVersion)
+                    Text(Defaults.currency + Metric(value: profit).shortVersion)
                         .font(.body).bold()
                 }
                 VStack {
@@ -193,6 +193,6 @@ struct CoinView: View {
 
 struct CoinView_Previews: PreviewProvider {
     static var previews: some View {
-        CoinView(coin: emptyCoin)
+        CoinView(coin: MockData.emptyCoin)
     }
 }

@@ -17,7 +17,6 @@ struct BadgeView: View {
         VStack {
             HStack {
                 Text(portfolioDataManager.portfolioArray[portfolioDataManager.selectedPortfolio].name)
-                
                 Spacer()
                 
                 Button(action: {
@@ -26,15 +25,14 @@ struct BadgeView: View {
                     Image(systemName: "rectangle.and.pencil.and.ellipsis")
                 }) //: BUTTON
                 .sheet(isPresented: $isShowingSettins, content: {
-                    PortfolioSettingsView(colorSelected: emptyColorSelected)
+                    PortfolioSettingsView(colorSelected: MockData.emptyColorSelected)
                 })
             }
             
             HStack {
-                Text(currency + String(format: "%.1f", portfolioDataManager.portfolioArray[portfolioDataManager.selectedPortfolio].account_value))
+                Text(Defaults.currency + String(format: "%.1f", portfolioDataManager.portfolioArray[portfolioDataManager.selectedPortfolio].account_value))
                     .font(.title).bold()
                     .monospacedDigit()
-                
                 Spacer()
             }
         } //: VSTACK

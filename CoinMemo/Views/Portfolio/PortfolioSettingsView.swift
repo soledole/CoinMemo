@@ -83,7 +83,7 @@ struct PortfolioSettingsView: View {
 
 struct PortfolioSettingsView_Previews: PreviewProvider {
     static var previews: some View {
-        PortfolioSettingsView(colorSelected: emptyColorSelected)
+        PortfolioSettingsView(colorSelected: MockData.emptyColorSelected)
             .preferredColorScheme(.dark)
     }
 }

@@ -23,7 +23,7 @@ struct AddCoinView: View {
                 Spacer()
                 
                 Button(action: {
-                    portfolioDataManager.loadPortfolioFromAPI()
+                    portfolioDataManager.loadCoinListFromAPI()
                     portfolioDataManager.saveCoinListToFile()
                 }, label: {
                     Image(systemName: "arrow.clockwise")
@@ -81,7 +81,6 @@ struct AddCoinView: View {
     
     private func searchCoin(name: String) -> Bool {
         print("-> searchCoin(name: \(name), portfolio: \(portfolioDataManager.selectedPortfolio))")
-        
         for coin in portfolioDataManager.portfolioArray[portfolioDataManager.selectedPortfolio].coin {
             if (coin.name == name) {
                 print("<- true")

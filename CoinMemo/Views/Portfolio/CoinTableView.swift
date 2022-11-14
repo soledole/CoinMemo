@@ -53,7 +53,7 @@ struct CoinTableView: View {
             .foregroundColor(.white)
             .refreshable {
                 print("refresh")
-                feedback.impactOccurred()
+                UIImpactFeedbackGenerator(style: .medium).impactOccurred()
                 
                 //not sure if it will be good, have to test it
                 if portfolioDataManager.checkIfCoinListExist() == false {
@@ -80,7 +80,7 @@ struct CoinTableView: View {
             coins.append(portfolioDataManager.coinsList[coin.name]!)
         }
         
-        CoinGeckoAPI().fetchDataForCoins(for: coins, in: fetchCurrency) { (prices) in
+        CoinGeckoAPI().fetchDataForCoins(for: coins, in: Defaults.fetchCurrency) { (prices) in
             
             for index in portfolioDataManager.portfolioArray[portfolioDataManager.selectedPortfolio].coin.enumerated() {
                 portfolioDataManager.portfolioArray[portfolioDataManager.selectedPortfolio].coin[index.offset].marketValue = prices[index.offset] as! Double
@@ -118,7 +118,7 @@ struct CoinTableView: View {
     
     private func getStringFromDate(with date: Date) -> String {
             let dateFormatter = DateFormatter()
-            dateFormatter.dateFormat = dateFormat
+            dateFormatter.dateFormat = Defaults.dateFormat
             let date = dateFormatter.string(from: date)
             return date
     }

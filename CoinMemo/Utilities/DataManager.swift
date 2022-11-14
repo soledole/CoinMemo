@@ -14,31 +14,44 @@ class PortfolioDataManager: ObservableObject {
     @Published var coinsList: [String: String] = [:]
     
     init() {
-        if checkIfFileExist() == true {
-            readPortfolioFromDocument()
+        if checkIfPortfolioFileExist() == true {
+            readPortfolioFromFile()
         } else {
             readPortfolioFromBundle()
         }
         if checkIfCoinListExist() == true {
-            loadCoinListFromDocument()
+            readCoinListFromFile()
         } else {
-            loadPortfolioFromAPI()
+            loadCoinListFromAPI()
         }
     }
     
-    func readPortfolioFromDocument() {
+    func checkIfPortfolioFileExist() -> Bool {
+        print("-> checkIfPortfolioFileExist() - folder path below")
+        print(FileManager.documentsDirectory.absoluteString.dropFirst(7))
+        
+        let filePath = FileManager.documentsDirectory.path + "/portfolio.json"
+        if FileManager.default.fileExists(atPath: filePath) {
+            print("<- exist")
+            return true
+        } else {
+            print("<- not exist")
+            return false
+        }
+    }
+    
+    func readPortfolioFromFile() {
         do {
-            let url = try FileManager.default
-                .url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true)
+            let url = FileManager.documentsDirectory
                 .appendingPathComponent("portfolio")
                 .appendingPathExtension("json")
-            print("readPortfolioFromDocument()")
+            print("readPortfolioFromFile()")
             
             let data = try Data(contentsOf: url)
             let jsonData = try JSONDecoder().decode([Portfolio].self, from: data)
             portfolioArray = jsonData
         } catch {
-            print("error reading from document: \(error)")
+            print("error reading from file: \(error)")
         }
     }
     
@@ -63,58 +76,46 @@ class PortfolioDataManager: ObservableObject {
                 .appendingPathExtension("json")
             print("savePortfolioToFile()")
             let data = try JSONEncoder().encode(portfolioArray)
-            try data.write(to: url)
+            try data.write(to: url, options: .completeFileProtection)
         } catch {
             print("error saving to file: \(error)")
         }
     }
     
-    func checkIfFileExist() -> Bool {
-        let path = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0] as String
-        print("-> checkIfFileExist() - folder path: \(path)")
-        
-        let fileManager = FileManager.default
-        let filePath = path + "/portfolio.json"
-        
-        if fileManager.fileExists(atPath: filePath) {
-            print("<- file exist")
-            return true
-        } else {
-            print("<- file does not exist")
-            return false
-        }
-    }
-    
     func checkIfCoinListExist() -> Bool {
-        let path = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0] as String
         print("-> checkIfCoinListExist()")
-        
-        let fileManager = FileManager.default
-        let filePath = path + "/coinlist.json"
-        
-        if fileManager.fileExists(atPath: filePath) {
-            print("<- file exist")
+        let filePath = FileManager.documentsDirectory.path + "/coinlist.json"
+        if FileManager.default.fileExists(atPath: filePath) {
+            print("<- exist")
             return true
         } else {
-            print("<- file does not exist")
+            print("<- not exist")
             return false
         }
     }
     
-    func loadCoinListFromDocument() {
+    func readCoinListFromFile() {
         do {
-            let url = try FileManager.default
-                .url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true)
+            let url = FileManager.documentsDirectory
                 .appendingPathComponent("coinlist")
                 .appendingPathExtension("json")
-            print("loadCoinListFromDocument()")
+            print("readCoinListFromFile()")
             
             let data = try Data(contentsOf: url)
             let jsonData = try JSONDecoder().decode([String:String].self, from: data)
             coinsList = jsonData
         } catch {
-            print("error reading from document: \(error)")
+            print("error reading from file: \(error)")
         }
+    }
+    
+    func loadCoinListFromAPI() {
+        CoinGeckoAPI().getCoinList() { (coin) in
+            for index in coin.enumerated() {
+                self.coinsList[coin[index.offset].symbol.uppercased()] = coin[index.offset].id
+            }
+        }
+        print("loadCoinListFromAPI()")
     }
     
     func saveCoinListToFile() {
@@ -129,14 +130,5 @@ class PortfolioDataManager: ObservableObject {
         } catch {
             print("error saving to file: \(error)")
         }
-    }
-    
-    func loadPortfolioFromAPI() {
-        CoinGeckoAPI().getCoinList() { (coin) in
-            for index in coin.enumerated() {
-                self.coinsList[coin[index.offset].symbol.uppercased()] = coin[index.offset].id
-            }
-        }
-        print("loadPortfolioFromAPI()")
     }
 }

@@ -15,7 +15,7 @@ struct AddTransactionView: View {
     @State private var price: Double = 0
     @State private var volume: Double = 0
     @State private var date = Date.now
-    @State private var newTransaction: Transaction = emptyTransaction
+    @State private var newTransaction: Transaction = MockData.emptyTransaction
     @State private var test: String = ""
     @Binding var isPresented: Bool
     
@@ -79,6 +79,6 @@ struct AddTransactionView: View {
 
 struct AddTransactionView_Previews: PreviewProvider {
     static var previews: some View {
-        AddTransactionView(coin: emptyCoin, isPresented: .constant(true))
+        AddTransactionView(coin: MockData.emptyCoin, isPresented: .constant(true))
     }
 }

@@ -2,13 +2,13 @@
     {
         "id": 0,
         "name": "First portfolio",
-        "account_value": 23000,
+        "account_value": 26400,
         "badge_color": {
             "red": 1,
             "green": 0.5,
             "blue": 0.29
         },
-        "refresh_date": "dd-MM HH:mm:ss",
+        "refresh_date": "",
         "coin": [
             {
                 "name": "BTC",

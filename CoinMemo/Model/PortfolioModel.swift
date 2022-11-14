@@ -16,12 +16,6 @@ struct Portfolio: Identifiable, Codable {
     var coin: [Coin]
 }
 
-struct BadgeColor: Codable, Equatable {
-    var red: Double
-    var green: Double
-    var blue: Double
-}
-
 struct Coin: Codable, Hashable {
     var name: String
     var marketValue: Double
@@ -34,9 +28,4 @@ struct Transaction: Codable, Hashable {
     var volume: Double
     var price: Double
     var date: String
-}
-
-struct CoinList: Codable, Hashable {
-    var symbol: String
-    var id: String
 }

@@ -23,6 +23,13 @@ extension UIScreen {
    static let screenSize = UIScreen.main.bounds.size
 }
 
+extension FileManager {
+    static var documentsDirectory: URL {
+        let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
+        return paths[0]
+    }
+}
+
 extension Metric: CustomStringConvertible {
     var description: String {
         var formattedValue = String(format: "%.8f", value)

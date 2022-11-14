@@ -66,7 +66,7 @@ struct AddPortfolioView: View {
             Button("Save", action: {
                 UIApplication.shared.dismissKeyboard()
                 if !name.isEmpty {
-                    let newPortfolio = Portfolio(id: portfolioDataManager.portfolioArray.count+1, name: name, account_value: 0, badge_color: colorSelected, refresh_date: "", coin: [emptyCoin])
+                    let newPortfolio = Portfolio(id: portfolioDataManager.portfolioArray.count+1, name: name, account_value: 0, badge_color: colorSelected, refresh_date: "", coin: [MockData.emptyCoin])
                     portfolioDataManager.portfolioArray.append(newPortfolio)
                 }
                 portfolioDataManager.savePortfolioToFile()

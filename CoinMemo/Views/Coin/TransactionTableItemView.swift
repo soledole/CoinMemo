@@ -46,6 +46,6 @@ struct TransactionTableItemView: View {
 
 struct TransactionTableItemView_Previews: PreviewProvider {
     static var previews: some View {
-        TransactionTableItemView(transaction: emptyTransaction, coinMarketValue: 0)
+        TransactionTableItemView(transaction: MockData.emptyTransaction, coinMarketValue: 0)
     }
 }
