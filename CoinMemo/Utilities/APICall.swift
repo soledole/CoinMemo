@@ -9,7 +9,7 @@ import SwiftUI
 
 struct CoinGeckoAPI {
     
-    func fetchDataForCoins(for coins: [String], in currency: String, completion: @escaping ([Any]) -> Void) {
+    func fetchDataForCoins(for coins: [String], in currency: String, completion: @escaping ([Any]) -> ()) {
         
         var coinsString = ""
         
@@ -17,7 +17,6 @@ struct CoinGeckoAPI {
             coinsString += coin+","
         }
         coinsString.removeLast() //Remove last comma for proper url
-        
         
         var readyCoins:[Any] = []
         
@@ -27,7 +26,6 @@ struct CoinGeckoAPI {
             let task = session.dataTask(with: url) { (data, response, error) in
                 
                 if let safeData = data {
-                    
                     do {
                         if let jsonCoin = try JSONSerialization.jsonObject(with: safeData) as? [String:[String:Any]] {
                             
@@ -64,16 +62,40 @@ struct CoinGeckoAPI {
             let task = session.dataTask(with: url) { (data, response, error) in
                 
                 if let safeData = data {
-                    
                     do {
-                        let results = try JSONDecoder().decode([CoinList].self, from: safeData)
-
+                        let result = try JSONDecoder().decode([CoinList].self, from: safeData)
                         DispatchQueue.main.async {
-                            completion(results)
+                            completion(result)
                         }
+                    } catch {
+                        print("Failed to load: \(error.localizedDescription)")
                     }
-                    catch {
-                        print("Failed to laod: \(error.localizedDescription)")
+                }
+            } //: SESSION
+            task.resume()
+        }
+    }
+    
+    func getCoin(for coin: String, completion: @escaping ([String: String]) -> ()) {
+        
+        var readyCoinsList: [String: String] = [:]
+        
+        if let url = URL(string: "https://api.coingecko.com/api/v3/search?query=\(coin)") {
+            
+            let session = URLSession(configuration: .default)
+            let task = session.dataTask(with: url) { (data, response, error)  in
+                
+                if let safeData = data {
+                    do {
+                        let result = try JSONDecoder().decode(CoinSearch.self, from: safeData)
+                        DispatchQueue.main.async {
+                            for coin in result.coins.enumerated() {
+                                readyCoinsList[result.coins[coin.offset].symbol.uppercased()] = result.coins[coin.offset].name
+                            }
+                            completion(readyCoinsList)
+                        }
+                    } catch {
+                        print("Failed to load: \(error.localizedDescription)")
                     }
                 }
             } //: SESSION

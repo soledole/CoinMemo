@@ -110,9 +110,9 @@ class PortfolioDataManager: ObservableObject {
     }
     
     func loadCoinListFromAPI() {
-        CoinGeckoAPI().getCoinList() { (coin) in
-            for index in coin.enumerated() {
-                self.coinsList[coin[index.offset].symbol.uppercased()] = coin[index.offset].id
+        CoinGeckoAPI().getCoinList() { (coins) in
+            for coin in coins.enumerated() {
+                self.coinsList[coins[coin.offset].symbol.uppercased()] = coins[coin.offset].id
             }
         }
         print("loadCoinListFromAPI()")
@@ -130,5 +130,17 @@ class PortfolioDataManager: ObservableObject {
         } catch {
             print("error saving to file: \(error)")
         }
+    }
+    
+    func searchCoin(name: String) -> Bool {
+        print("-> searchCoin(name: \(name), portfolio: \(selectedPortfolio))")
+        for coin in portfolioArray[selectedPortfolio].coin {
+            if (coin.name == name) {
+                print("<- true")
+                return true
+            }
+        }
+        print("<- false")
+        return false
     }
 }

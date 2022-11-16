@@ -33,12 +33,51 @@ struct AddCoinView: View {
             .padding(.bottom, 30)
             
             VStack {
-                SearchBarView(searchText: $searchText, isSearching: $isSearching)
-                    .disableAutocorrection(true)
-                    .autocapitalization(.allCharacters)
+                //SearchBar
+                ZStack {
+                    Rectangle()
+                        .foregroundColor(Color(UIColor.secondarySystemBackground))
+                    
+                    HStack {
+                        Image(systemName: "magnifyingglass")
+                        
+                        TextField("Search...", text: $searchText) { startedEditing in
+                            if startedEditing {
+                                withAnimation {
+                                    isSearching = true
+                                }
+                            }
+                        } onCommit: {
+                            CoinGeckoAPI().getCoin(for: searchText) { (coin) in
+                                let replecingCurrent = portfolioDataManager.coinsList.merging(coin) { (_, new) in new }
+                                portfolioDataManager.coinsList = replecingCurrent
+                            }
+                            withAnimation {
+                                isSearching = false
+                            }
+                        }
+                        .disableAutocorrection(true)
+                        .autocapitalization(.allCharacters)
+                        
+                        if isSearching {
+                            Button(action: {
+                                searchText = ""
+                                isSearching = false
+                                UIApplication.shared.dismissKeyboard()
+                            }, label: {
+                                Text("Cancel")
+                                    .foregroundColor(.accentColor)
+                            })
+                        }
+                    } //: HSTACK
+                    .padding([.leading, .trailing], 10)
+                } //: ZSTACK
+                .frame(height: 40)
+                .cornerRadius(10)
                 
                 List {
-                    ForEach(portfolioDataManager.coinsList.keys.filter({ (coin: String) -> Bool in
+                    let sortedKeys = Array(portfolioDataManager.coinsList.keys).sorted(by: <)
+                    ForEach(sortedKeys.filter({ (coin: String) -> Bool in
                         return coin.hasPrefix(searchText) || searchText == ""
                     }), id: \.self) { coin in
                         
@@ -48,7 +87,7 @@ struct AddCoinView: View {
                             
                             Button(action: {
                                 showingAlert = true
-                                if (searchCoin(name: coin)) {
+                                if (portfolioDataManager.searchCoin(name: coin)) {
                                     alertType = true
                                 } else {
                                     alertType = false
@@ -75,20 +114,6 @@ struct AddCoinView: View {
             }
         } //: VSTACK
         .padding()
-    }
-    
-    //MARK: - Functions
-    
-    private func searchCoin(name: String) -> Bool {
-        print("-> searchCoin(name: \(name), portfolio: \(portfolioDataManager.selectedPortfolio))")
-        for coin in portfolioDataManager.portfolioArray[portfolioDataManager.selectedPortfolio].coin {
-            if (coin.name == name) {
-                print("<- true")
-                return true
-            }
-        }
-        print("<- false")
-        return false
     }
 }
 
