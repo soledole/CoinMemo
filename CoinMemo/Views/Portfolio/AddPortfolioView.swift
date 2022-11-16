@@ -13,7 +13,7 @@ struct AddPortfolioView: View {
     @State private var name = ""
     @State private var colorSelected = colorPicker[0]
     private var gridItem: [GridItem] {
-        Array(repeating: .init(.fixed(60)) , count: 3)
+        Array(repeating: .init(.fixed(60)) , count: 4)
     }
     @Binding var isPresented: Bool
     
@@ -59,7 +59,7 @@ struct AddPortfolioView: View {
                         .onTapGesture {
                             colorSelected = colorPicker[index]
                         }
-                        .scaleEffect(colorPicker[index] == colorSelected ? 0.9 : 1.0)
+                        .scaleEffect(colorPicker[index] == colorSelected ? 1.1 : 1.0)
                 }
             }
             

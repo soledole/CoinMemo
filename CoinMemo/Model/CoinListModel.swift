@@ -17,6 +17,6 @@ struct CoinSearch: Codable {
 }
 
 struct Coin2: Codable, Hashable {
-    var name: String
+    var id: String
     var symbol: String
 }
