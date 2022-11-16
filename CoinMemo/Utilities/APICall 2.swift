@@ -56,7 +56,7 @@ struct CoinGeckoAPI {
     
     func getCoinList(completion: @escaping ([CoinList]) -> ()) {
         
-        if let url = URL(string: "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=250&sparkline=false") {
+        if let url = URL(string: "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=100&page=1&sparkline=false") {
             
             let session = URLSession(configuration: .default)
             let task = session.dataTask(with: url) { (data, response, error) in
@@ -90,7 +90,7 @@ struct CoinGeckoAPI {
                         let result = try JSONDecoder().decode(CoinSearch.self, from: safeData)
                         DispatchQueue.main.async {
                             for coin in result.coins.enumerated() {
-                                readyCoinsList[result.coins[coin.offset].symbol.uppercased()] = result.coins[coin.offset].id
+                                readyCoinsList[result.coins[coin.offset].symbol.uppercased()] = result.coins[coin.offset].name
                             }
                             completion(readyCoinsList)
                         }
